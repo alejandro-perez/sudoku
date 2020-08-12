@@ -21,6 +21,7 @@ class State(object):
         """
         Creates a new state from a 81 character string
         """
+        string = string.replace(' ', '')
         values = []
         for base in range(0, 81, 9):
             values.append([int(x) for x in string[base:base+9]])
@@ -83,15 +84,15 @@ class State(object):
 
 def main():
     # initial state. 0s represent empty values
-    initial = State.from_string('130905020'
-                                '057206100'
-                                '062104007'
-                                '573800200'
-                                '080427030'
-                                '001563870'
-                                '090000460'
-                                '800659010'
-                                '710040980')
+    initial = State.from_string('1 3 0 9 0 5 0 2 0'
+                                '0 5 7 2 0 6 1 0 0'
+                                '0 6 2 1 0 4 0 0 7'
+                                '5 7 3 8 0 0 2 0 0'
+                                '0 8 0 4 2 7 0 3 0'
+                                '0 0 1 5 6 3 8 7 0'
+                                '0 9 0 0 0 0 4 6 0'
+                                '8 0 0 6 5 9 0 1 0'
+                                '7 1 0 0 4 0 9 8 0')
 
     states = [initial]
     iterations = 0
