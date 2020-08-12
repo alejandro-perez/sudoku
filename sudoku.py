@@ -77,10 +77,7 @@ class State(object):
     def __str__(self):
         result = ''
         for row in self.values:
-            for value in row:
-                if value == 0: value = ' '
-                result += '{} '.format(value)
-            result += "\n"
+            result += ' '.join(str(x) for x in row) + '\n'
         return result
 
 
