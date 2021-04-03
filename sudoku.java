@@ -139,7 +139,7 @@ class Sudoku {
             iterations++;
             State state = states.remove(states.size() - 1);
             if (state.isSolved()) {
-                System.out.println(String.format("Game solved in %s iterations:%s\n", iterations, state));
+                System.out.println(String.format("Game solved in %s iterations:\n%s", iterations, state));
                 break;
             }
             states.addAll(state.generateStates());
