@@ -12,9 +12,15 @@ __email__ = "alejandro.perez.mendez@gmail.com"
 class State(object):
     def __init__(self, values):
         """
-        Creates a new state cloning from a 2-dimensional array
+        Creates a new state from a 2-dimensional list
         """
-        self.values = [row[:] for row in values]
+        self.values = values
+
+    def clone(self):
+        """
+        Returns a clone fo this state
+        """
+        return State([row[:] for row in self.values])
 
     @classmethod
     def from_string(cls, string):
@@ -69,7 +75,7 @@ class State(object):
             for j in range(9):
                 if self.values[i][j] == 0:
                     for val in self.get_available_numbers(i, j):
-                        newstate = State(self.values)
+                        newstate = self.clone()
                         newstate.values[i][j] = val
                         newstates.append(newstate)
                     return newstates
@@ -84,25 +90,25 @@ class State(object):
 
 def main():
     # initial state. 0s represent empty values
-    initial = State.from_string('1 3 0 9 0 5 0 2 0'
-                                '0 5 7 2 0 6 1 0 0'
-                                '0 6 2 1 0 4 0 0 7'
-                                '5 7 3 8 0 0 2 0 0'
-                                '0 8 0 4 2 7 0 3 0'
-                                '0 0 1 5 6 3 8 7 0'
-                                '0 9 0 0 0 0 4 6 0'
-                                '8 0 0 6 5 9 0 1 0'
-                                '7 1 0 0 4 0 9 8 0')
-
+    initial = State.from_string(
+        '0 0 0 4 0 9 0 8 0'
+        '2 0 5 0 1 0 3 0 0'
+        '0 6 0 0 5 0 0 7 0'
+        '3 0 0 0 0 0 0 0 2'
+        '0 7 4 0 0 0 6 1 0'
+        '6 0 0 0 0 0 0 0 8'
+        '0 2 0 0 8 0 0 5 0'
+        '0 0 1 0 9 0 4 0 3'
+        '0 4 0 5 0 1 0 0 0'
+    )
     states = [initial]
     iterations = 0
     while states:
         iterations += 1
         state = states.pop()
         if state.is_solved():
-            print("Game solved in {} iterations".format(iterations))
-            print(state)
-            return
+            print("Game solved in {} iterations:\n{}".format(iterations, state))
+            break
         else:
             states += state.generate_states()
 
