@@ -1,6 +1,7 @@
 /**
  * This small program solves SUDOKU puzzles
  */
+
 import java.util.*;
 
 /*
@@ -28,35 +29,35 @@ class State {
         this.values = new int[9][9];
         string_rep = string_rep.replace(" ", "");
         for (int i = 0; i < 81; i++) {
-            this.values[i/9][i%9] = Character.getNumericValue(string_rep.charAt(i));
+            this.values[i / 9][i % 9] = Character.getNumericValue(string_rep.charAt(i));
         }
     }
 
-    /*
-     *Creates a new state cloning another one
+    /**
+     * Creates a new state cloning another one
      */
     State(State another) {
         // Found on the Internet!
         this.values = Arrays.stream(another.values).map(int[]::clone).toArray(int[][]::new);
     }
 
-    /*
+    /**
      * Returns whether this State represents a solved game
      */
     boolean isSolved() {
-        for (int i=0; i<81; i++)
-            if (this.values[i/9][i%9] == 0)
+        for (int i = 0; i < 81; i++)
+            if (this.values[i / 9][i % 9] == 0)
                 return false;
         return true;
     }
 
-    /*
+    /**
      * Returns a set of used numbers in the indicated sub-matrix
      */
     Set<Integer> getUsedNumbers(int x1, int y1, int x2, int y2) {
         Set<Integer> result = new HashSet<Integer>();
-        for (int i=x1; i<=x2; i++) {
-            for (int j=y1; j<=y2; j++) {
+        for (int i = x1; i <= x2; i++) {
+            for (int j = y1; j <= y2; j++) {
                 int value = this.values[i][j];
                 if (value > 0)
                     result.add(value);
@@ -65,13 +66,13 @@ class State {
         return result;
     }
 
-    /*
+    /**
      * Returns the set of numbers that could be used for the indicated position
      */
     Set<Integer> getAvailableNumbers(int x, int y) {
         Set<Integer> available = new HashSet<Integer>();
         // add all the numbers from 1 to 9
-        for (int i=1; i<10; i++)
+        for (int i = 1; i < 10; i++)
             available.add(i);
         // remove any number that is already this this column
         available.removeAll(this.getUsedNumbers(x, 0, x, 8));
@@ -84,13 +85,13 @@ class State {
         return available;
     }
 
-    /*
+    /**
      * Generates possible states from the current one
      */
     List<State> generateStates() {
         List<State> newStates = new ArrayList<State>();
-        for (int x=0; x<9; x++) {
-            for (int y=0; y<9; y++) {
+        for (int x = 0; x < 9; x++) {
+            for (int y = 0; y < 9; y++) {
                 if (this.values[x][y] == 0) {
                     for (Integer val : this.getAvailableNumbers(x, y)) {
                         State newState = new State(this);
@@ -104,13 +105,13 @@ class State {
         return newStates;
     }
 
-    /*
+    /**
      * Returns the string representation of this State
      */
     public String toString() {
         String result = "";
-        for (int row=0; row<9; row++) {
-            for (int col=0; col<9; col++) {
+        for (int row = 0; row < 9; row++) {
+            for (int col = 0; col < 9; col++) {
                 result += this.values[row][col] + " ";
             }
             result += "\n";
@@ -120,19 +121,19 @@ class State {
 }
 
 class Sudoku {
-    public static void main (String [ ] args) {
+    public static void main(String[] args) {
         State initial = new State(
-            "0 0 0 4 0 9 0 8 0" +
-            "2 0 5 0 1 0 3 0 0" +
-            "0 6 0 0 5 0 0 7 0" +
-            "3 0 0 0 0 0 0 0 2" +
-            "0 7 4 0 0 0 6 1 0" +
-            "6 0 0 0 0 0 0 0 8" +
-            "0 2 0 0 8 0 0 5 0" +
-            "0 0 1 0 9 0 4 0 3" +
-            "0 4 0 5 0 1 0 0 0"
+                "0 0 0 4 0 9 0 8 0" +
+                        "2 0 5 0 1 0 3 0 0" +
+                        "0 6 0 0 5 0 0 7 0" +
+                        "3 0 0 0 0 0 0 0 2" +
+                        "0 7 4 0 0 0 6 1 0" +
+                        "6 0 0 0 0 0 0 0 8" +
+                        "0 2 0 0 8 0 0 5 0" +
+                        "0 0 1 0 9 0 4 0 3" +
+                        "0 4 0 5 0 1 0 0 0"
         );
-        List<State> states = new ArrayList<State>();
+        List<State> states = new ArrayList<>();
         states.add(initial);
         int iterations = 0;
         while (!states.isEmpty()) {
